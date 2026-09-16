@@ -17,6 +17,7 @@
   --series-5: #e87ba4; /* magenta */
   --series-6: #008300; /* green */
   --series-other: #c3c2b7;
+  --status-critical: #d03b3b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -148,6 +149,13 @@ main#app {
   background: var(--page-plane);
   padding: 2px 5px;
   border-radius: 4px;
+}
+
+.dropzone-error {
+  margin: 10px 0 0;
+  color: var(--status-critical);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .profile-card {

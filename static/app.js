@@ -197,15 +197,32 @@ function render(data) {
   renderRepos(data.top_repos || [], data.languages || {});
 }
 
+function showLoadError(message) {
+  const banner = document.getElementById("dropzone-error");
+  if (!message) {
+    banner.hidden = true;
+    banner.textContent = "";
+    return;
+  }
+  banner.textContent = message;
+  banner.hidden = false;
+}
+
 function loadFromText(text) {
   let data;
   try {
     data = JSON.parse(text);
   } catch (e) {
-    alert("That file isn't valid JSON. Generate one with: python main.py --format json");
+    showLoadError("That file isn't valid JSON. Generate one with: python main.py --format json");
     return;
   }
-  render(data);
+  try {
+    render(data);
+  } catch (e) {
+    showLoadError("That file doesn't match the expected report format.");
+    return;
+  }
+  showLoadError(null);
   try {
     localStorage.setItem(STORAGE_KEY, text);
   } catch (e) {
@@ -222,12 +239,21 @@ function setupFileLoading() {
   });
 
   const dropzone = document.getElementById("dropzone");
-  dropzone.addEventListener("dragover", (e) => {
+
+  // Browsers navigate the whole tab to a dropped file unless every
+  // dragover/drop on the page is prevented, not just on the dropzone box,
+  // so a drop anywhere else on the page previously blew the page away
+  // instead of loading the report.
+  window.addEventListener("dragover", (e) => {
     e.preventDefault();
     dropzone.classList.add("drag-over");
   });
-  dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag-over"));
-  dropzone.addEventListener("drop", (e) => {
+  window.addEventListener("dragleave", (e) => {
+    if (e.target === document.documentElement || e.target === document.body) {
+      dropzone.classList.remove("drag-over");
+    }
+  });
+  window.addEventListener("drop", (e) => {
     e.preventDefault();
     dropzone.classList.remove("drag-over");
     const file = e.dataTransfer.files[0];
