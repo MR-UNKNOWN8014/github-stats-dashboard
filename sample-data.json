@@ -1,0 +1,21 @@
+{
+  "profile": {
+    "login": "octocat",
+    "name": "The Octocat",
+    "bio": "Sample data, load your own report to replace this.",
+    "avatar_url": "https://avatars.githubusercontent.com/u/583231?v=4",
+    "html_url": "https://github.com/octocat",
+    "public_repos": 8,
+    "followers": 24082,
+    "following": 9
+  },
+  "languages": { "Python": 124457, "HTML": 29135, "JavaScript": 20089, "CSS": 16944, "Shell": 969 },
+  "top_repos": [
+    { "name": "Spoon-Knife", "html_url": "https://github.com/octocat/Spoon-Knife", "language": "HTML", "stargazers_count": 14035, "forks_count": 159336 },
+    { "name": "Hello-World", "html_url": "https://github.com/octocat/Hello-World", "language": null, "stargazers_count": 3813, "forks_count": 6784 },
+    { "name": "git-consortium", "html_url": "https://github.com/octocat/git-consortium", "language": "Python", "stargazers_count": 613, "forks_count": 184 }
+  ],
+  "growth_by_month": { "2011-01": 2, "2014-03": 2, "2014-06": 1, "2016-04": 1 },
+  "most_active_day": { "day": "Wednesday", "count": 2 },
+  "commit_activity": { "total_commits": 118, "pending_repos": 0 }
+}

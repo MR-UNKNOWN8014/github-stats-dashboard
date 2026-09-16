@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Stats Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">gh</span>
+      <span class="brand-name">Stats Dashboard</span>
+    </div>
+    <div class="topbar-actions">
+      <label class="load-btn" for="file-input">
+        <span>Load report</span>
+        <input type="file" id="file-input" accept="application/json,.json" hidden>
+      </label>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle color theme">
+        <span class="theme-icon" id="theme-icon">&#9789;</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app">
+    <div class="dropzone" id="dropzone">
+      <p class="dropzone-title">Drop a report here, or use "Load report" above</p>
+      <p class="dropzone-hint">
+        Generate one with <code>python main.py --format json</code> in the
+        <a href="https://github.com/MR-UNKNOWN8014/github-stats-dashboard" target="_blank" rel="noopener">CLI tool</a>,
+        or explore the sample data shown now.
+      </p>
+    </div>
+
+    <section class="profile-card" id="profile-card"></section>
+
+    <section class="kpi-row" id="kpi-row"></section>
+
+    <div class="grid-2">
+      <section class="panel" id="languages-panel">
+        <h2>Languages</h2>
+        <div id="languages-bar"></div>
+        <ul class="legend" id="languages-legend"></ul>
+      </section>
+
+      <section class="panel" id="growth-panel">
+        <h2>Repo growth by month</h2>
+        <div class="bars-vertical" id="growth-chart"></div>
+      </section>
+    </div>
+
+    <section class="panel" id="repos-panel">
+      <h2>Top repositories</h2>
+      <div class="repo-grid" id="repo-grid"></div>
+    </section>
+
+    <footer class="foot-note">
+      Data stays in your browser, nothing here is uploaded anywhere.
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
