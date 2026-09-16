@@ -7,7 +7,7 @@ dashboard stay separate.
 
 ## What it is
 
-- `index.html` / `style.css` / `app.js`: a single-page dashboard. No build
+- `static/index.html` / `static/style.css` / `static/app.js`: a single-page dashboard. No build
   step, no npm, no framework, opens directly in a browser.
 - Renders: profile header, KPI stat tiles (public repos, followers,
   following, commits in the last 12 months, most active day), a byte-based
@@ -24,7 +24,7 @@ dashboard stay separate.
    ```bash
    python main.py --format json
    ```
-2. Open `index.html` in a browser (double-click it, no server needed).
+2. Open `static/index.html` in a browser (double-click it, no server needed).
 3. Drag the generated `.json` file onto the page, or click "Load report"
    and pick it from the file dialog.
 
