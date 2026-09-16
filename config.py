@@ -9,6 +9,7 @@ load_dotenv()
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
+INCLUDE_PRIVATE = os.getenv("GITHUB_INCLUDE_PRIVATE", "false").lower() == "true"
 
 if not GITHUB_TOKEN:
     raise ValueError("GITHUB_TOKEN not found. Check your .env file.")

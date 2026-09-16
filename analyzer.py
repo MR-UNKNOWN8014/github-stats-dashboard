@@ -7,26 +7,23 @@ and repo creation trends over time.
 from collections import Counter
 from datetime import datetime
 
-def analyze_languages(repos):
-    languages = []
+def original_repos(repos):
+    """Filters out forks, kept in one place since every stat below needs it."""
+    return [r for r in repos if not r["fork"]]
 
-    for repo in repos:
-        # Skip fork repos
-        if repo["fork"]:
-            continue
-
-        # Some repos have no detected language (empty/data-only repos)
-        if repo["language"] is None:
-            continue
-
-        languages.append(repo["language"])
-    return Counter(languages)
+def analyze_languages(language_byte_maps):
+    """
+    Aggregates per-repo {language: bytes} maps (from get_repo_languages)
+    into one Counter of total bytes per language across all repos.
+    """
+    total = Counter()
+    for byte_map in language_byte_maps:
+        total.update(byte_map)
+    return total
 
 def top_repos_by_stars(repos, limit=5):
-    original_repos = [r for r in repos if not r["fork"]]
-
     sorted_repos = sorted(
-        original_repos,
+        original_repos(repos),
         key=lambda r: r["stargazers_count"],
         reverse=True
     )
@@ -37,10 +34,7 @@ def top_repos_by_stars(repos, limit=5):
 def repo_growth_by_month(repos):
     growth = Counter()
 
-    for repo in repos:
-        if repo["fork"]:
-            continue
-
+    for repo in original_repos(repos):
         created = datetime.strptime(repo["created_at"], "%Y-%m-%dT%H:%M:%SZ")
         month_key = created.strftime("%Y-%m")
         growth[month_key] += 1
@@ -55,10 +49,7 @@ def most_active_day(repos):
     """
     day_counts = Counter()
 
-    for repo in repos:
-        if repo["fork"]:
-            continue
-
+    for repo in original_repos(repos):
         updated = datetime.strptime(repo["updated_at"], "%Y-%m-%dT%H:%M:%SZ")
         day_name = updated.strftime("%A")
         day_counts[day_name] += 1
@@ -67,3 +58,13 @@ def most_active_day(repos):
         return ("No Data", 0)
 
     return day_counts.most_common(1)[0]
+
+def total_commits_last_year(weekly_stats):
+    """
+    Sums the 'total' field across a get_commit_activity() response.
+    Returns None if stats are still being computed by GitHub (see
+    get_commit_activity), so callers can tell "not ready" from "really 0".
+    """
+    if weekly_stats is None:
+        return None
+    return sum(week["total"] for week in weekly_stats)

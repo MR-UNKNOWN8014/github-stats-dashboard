@@ -12,15 +12,15 @@ def generate_header(profile):
     bio = profile.get("bio") or "No bio set"
     generated_on = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    return f"""# GitHub Stats Report — {name}
+    return f"""# GitHub Stats Report - {name}
 
-    > {bio}
+> {bio}
 
-    **Generated:** {generated_on}
-    **Public repos:** {profile['public_repos']} | **Followers:** {profile['followers']} | **Following:** {profile['following']}
+**Generated:** {generated_on}
+**Public repos:** {profile.get('public_repos', 0)} | **Followers:** {profile.get('followers', 0)} | **Following:** {profile.get('following', 0)}
 
-    ---
-    """
+---
+"""
 
 def generate_language_section(language_counter):
     if not language_counter:
@@ -29,18 +29,15 @@ def generate_language_section(language_counter):
     total = sum(language_counter.values())
 
     lines = ["## Languages\n"]
-    lines.append("| Language | Repos | Share | Visual |")
+    lines.append("| Language | Bytes | Share | Visual |")
     lines.append("|----------|-------|-------|--------|")
 
-
-    for language, count in language_counter.most_common():
-        percent = (count / total) * 100
-
-
+    for language, byte_count in language_counter.most_common():
+        percent = (byte_count / total) * 100
         bar_length = int(percent / 5)
         bar = "█" * bar_length
 
-        lines.append(f"| {language} | {count} | {percent:.1f}% | {bar} |")
+        lines.append(f"| {language} | {byte_count:,} | {percent:.1f}% | {bar} |")
 
     body = "\n".join(lines)
 
@@ -55,7 +52,7 @@ def generate_top_repos_section(top_repos):
     lines.append("|------|----------|-------|-------|")
 
     for repo in top_repos:
-        language = repo["language"] or "—"
+        language = repo.get("language") or "N/A"
         lines.append(
             f"| [{repo['name']}]({repo['html_url']}) | {language} | "
             f"{repo['stargazers_count']} | {repo['forks_count']} |"
@@ -79,18 +76,27 @@ def generate_growth_section(growth_by_month):
 
 def generate_activity_section(active_day):
     day_name, count = active_day
-    return f"## Most Active Day\n\n**{day_name}** — {count} updates logged\n\n---\n"
+    return f"## Most Active Day\n\n**{day_name}**: {count} updates logged\n\n---\n"
+
+def generate_commit_activity_section(total_commits, pending_repos):
+    lines = ["## Commit Activity (last 12 months)\n"]
+    lines.append(f"Total commits: {total_commits}")
+    if pending_repos:
+        lines.append(f"\n{pending_repos} repo(s) still computing stats on GitHub's side, rerun later for a complete count.")
+    body = "\n".join(lines)
+    return f"{body}\n\n---\n"
 
 def generate_footer():
     return "\n*Report generated automatically by GitHub Stats Dashboard*\n"
 
-def build_full_report(profile, language_counter, top_repos, growth_by_month, active_day):
+def build_full_report(profile, language_counter, top_repos, growth_by_month, active_day, total_commits, pending_repos):
     sections = [
         generate_header(profile),
         generate_language_section(language_counter),
         generate_top_repos_section(top_repos),
         generate_growth_section(growth_by_month),
         generate_activity_section(active_day),
+        generate_commit_activity_section(total_commits, pending_repos),
         generate_footer(),
     ]
 
