@@ -33,7 +33,7 @@ cd github-stats-dashboard
 
 **Create `.env` file:**
 ```bash
-cp .env_example.txt .env
+cp .env_example .env
 ```
 
 Then edit `.env` and paste your values:
@@ -72,6 +72,26 @@ Open `reports/github_report_2026-06-20_1432.md` in your editor or Markdown viewe
 
 ---
 
+## CLI Usage
+
+```bash
+# Check someone else's public profile instead of the one in .env
+python main.py -u octocat
+
+# Include your own private repos (only works for the token's own account)
+python main.py --private
+
+# Get the raw stats as JSON instead of Markdown
+python main.py --format json
+
+# Write to a specific path
+python main.py -u octocat -o reports/octocat.md
+```
+
+`--username` and `--private` cannot be combined, private repos are only ever visible for the token's own account. Run `python main.py --help` for the full flag list.
+
+---
+
 ## What's in the Report?
 
 Each generated report includes:
@@ -101,7 +121,7 @@ Example section:
 ```
 github_stats/
 ├── .env                      # Your secrets (NOT in Git)
-├── .env_example.txt          # Template for .env
+├── .env_example               # Template for .env
 ├── .gitignore                
 ├── requirements.txt          # Python dependencies
 ├── README.md                 

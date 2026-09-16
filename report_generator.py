@@ -89,6 +89,17 @@ def generate_commit_activity_section(total_commits, pending_repos):
 def generate_footer():
     return "\n*Report generated automatically by GitHub Stats Dashboard*\n"
 
+def build_report_data(profile, language_counter, top_repos, growth_by_month, active_day, total_commits, pending_repos):
+    """Same stats as build_full_report, as a plain JSON-serializable dict."""
+    return {
+        "profile": profile,
+        "languages": dict(language_counter),
+        "top_repos": top_repos,
+        "growth_by_month": growth_by_month,
+        "most_active_day": {"day": active_day[0], "count": active_day[1]},
+        "commit_activity": {"total_commits": total_commits, "pending_repos": pending_repos},
+    }
+
 def build_full_report(profile, language_counter, top_repos, growth_by_month, active_day, total_commits, pending_repos):
     sections = [
         generate_header(profile),
