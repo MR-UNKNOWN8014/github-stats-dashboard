@@ -28,19 +28,6 @@ dashboard stay separate.
 3. Drag the generated `.json` file onto the page, or click "Load report"
    and pick it from the file dialog.
 
-## Design notes
-
-- The palette is CVD-checked against the project's data-viz validator, has
-  no purple, and every surface (light and dark) is a flat solid color, no
-  gradients anywhere.
-- The language breakdown is a single segmented bar (the same idea as
-  GitHub's own repo-language bar), not a pie or donut. It caps at 6 explicit
-  languages plus an "Other" bucket, both for readability and to stay inside
-  the palette's color-safety limits at a glance.
-- No frameworks, no build tooling, no dependencies. Plain HTML/CSS/vanilla
-  JS, so it can be opened as a local file or hosted as a static page (for
-  example GitHub Pages) with zero setup.
-
 ## Browser support
 
 Any modern evergreen browser (Chrome, Firefox, Edge, Safari). Uses
