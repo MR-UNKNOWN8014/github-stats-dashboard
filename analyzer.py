@@ -32,11 +32,19 @@ def top_repos_by_stars(repos, limit=5):
 
 
 def repo_growth_by_month(repos):
+    """
+    Groups repo creation dates by month. Excludes the current month since
+    it's still in progress, showing its partial count next to fully
+    completed months would misrepresent it as a final tally.
+    """
     growth = Counter()
+    current_month = datetime.now().strftime("%Y-%m")
 
     for repo in original_repos(repos):
         created = datetime.strptime(repo["created_at"], "%Y-%m-%dT%H:%M:%SZ")
         month_key = created.strftime("%Y-%m")
+        if month_key == current_month:
+            continue
         growth[month_key] += 1
 
     return dict(sorted(growth.items()))
@@ -44,15 +52,14 @@ def repo_growth_by_month(repos):
 
 def most_active_day(repos):
     """
-        Looks at repo 'updated_at' timestamps to guess which day of the
-        week you push code most often. Rough signal, not perfectly precise
+        Finds the single calendar date (from repo 'updated_at' timestamps)
+        with the most repo updates.
     """
     day_counts = Counter()
 
     for repo in original_repos(repos):
         updated = datetime.strptime(repo["updated_at"], "%Y-%m-%dT%H:%M:%SZ")
-        day_name = updated.strftime("%A")
-        day_counts[day_name] += 1
+        day_counts[updated.strftime("%b %d, %Y")] += 1
 
     if not day_counts:
         return ("No Data", 0)
