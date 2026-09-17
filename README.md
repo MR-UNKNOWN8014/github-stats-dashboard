@@ -175,43 +175,6 @@ github-stats-dashboard/
     └── github_report_2026-06-20_1432.json
 ```
 
----
-
-## How It Works (Under the Hood)
-
-### 1. **`cli.py`** - Argument parsing
-Defines `--username`, `--private`, `--output`, and `--format`, all optional.
-
-### 2. **`config.py`** - Secure configuration
-Loads `GITHUB_TOKEN`, `GITHUB_USERNAME`, and `GITHUB_INCLUDE_PRIVATE` from
-`.env` using `python-dotenv`. Fails loudly if the token or username is missing.
-
-### 3. **`github_client.py`** - API communication
-Makes authenticated requests to GitHub's REST API, with a timeout and a
-bounded retry on transient network failures:
-- `get_user_profile()`: Profile stats (followers, bio, public repos)
-- `get_all_repos()`: All your repos with pagination
-- `get_commit_activity()`: Weekly commit stats for a single repo
-- `get_repo_languages()`: Byte-count-per-language breakdown for a single repo
-
-### 4. **`analyzer.py`** - Data crunching
-Pure logic, no API calls:
-- `analyze_languages()`: Aggregates byte counts per language across repos
-- `top_repos_by_stars()`: Sorts repos by star count
-- `repo_growth_by_month()`: Groups repo creation dates by month
-- `most_active_day()`: Finds your most active weekday
-- `total_commits_last_year()`: Sums weekly commit totals for a repo
-
-### 5. **`report_generator.py`** - Output formatting
-- `build_full_report()`: The Markdown report
-- `build_report_data()`: The same stats as a plain dict, for JSON output
-
-### 6. **`main.py`** - Orchestration
-Parses CLI args, fetches and analyzes the data, then writes the report in
-whichever format was requested.
-
----
-
 ## Troubleshooting
 
 **Error: `GITHUB_TOKEN not found`**
