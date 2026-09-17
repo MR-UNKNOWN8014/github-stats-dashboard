@@ -32,11 +32,19 @@ def top_repos_by_stars(repos, limit=5):
 
 
 def repo_growth_by_month(repos):
+    """
+    Groups repo creation dates by month. Excludes the current month since
+    it's still in progress, showing its partial count next to fully
+    completed months would misrepresent it as a final tally.
+    """
     growth = Counter()
+    current_month = datetime.now().strftime("%Y-%m")
 
     for repo in original_repos(repos):
         created = datetime.strptime(repo["created_at"], "%Y-%m-%dT%H:%M:%SZ")
         month_key = created.strftime("%Y-%m")
+        if month_key == current_month:
+            continue
         growth[month_key] += 1
 
     return dict(sorted(growth.items()))
@@ -51,7 +59,7 @@ def most_active_day(repos):
 
     for repo in original_repos(repos):
         updated = datetime.strptime(repo["updated_at"], "%Y-%m-%dT%H:%M:%SZ")
-        day_counts[updated.strftime("%B %d, %Y")] += 1
+        day_counts[updated.strftime("%b %d, %Y")] += 1
 
     if not day_counts:
         return ("No Data", 0)
