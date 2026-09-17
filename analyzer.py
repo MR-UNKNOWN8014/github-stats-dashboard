@@ -44,15 +44,14 @@ def repo_growth_by_month(repos):
 
 def most_active_day(repos):
     """
-        Looks at repo 'updated_at' timestamps to guess which day of the
-        week you push code most often. Rough signal, not perfectly precise
+        Finds the single calendar date (from repo 'updated_at' timestamps)
+        with the most repo updates.
     """
     day_counts = Counter()
 
     for repo in original_repos(repos):
         updated = datetime.strptime(repo["updated_at"], "%Y-%m-%dT%H:%M:%SZ")
-        day_name = updated.strftime("%A")
-        day_counts[day_name] += 1
+        day_counts[updated.strftime("%B %d, %Y")] += 1
 
     if not day_counts:
         return ("No Data", 0)
