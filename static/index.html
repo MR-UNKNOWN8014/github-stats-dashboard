@@ -9,14 +9,9 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark">gh</span>
       <span class="brand-name">Stats Dashboard</span>
     </div>
     <div class="topbar-actions">
-      <label class="load-btn" for="file-input">
-        <span>Load report</span>
-        <input type="file" id="file-input" accept="application/json,.json" hidden>
-      </label>
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle color theme">
         <span class="theme-icon" id="theme-icon">&#9789;</span>
       </button>
@@ -25,12 +20,16 @@
 
   <main id="app">
     <div class="dropzone" id="dropzone">
-      <p class="dropzone-title">Drop a report here, or use "Load report" above</p>
+      <p class="dropzone-title">Drop a report here</p>
       <p class="dropzone-hint">
-        Generate one with <code>python main.py --format json</code> in the
+        Generate one with <code>python main.py</code> in the
         <a href="https://github.com/MR-UNKNOWN8014/github-stats-dashboard" target="_blank" rel="noopener">CLI tool</a>,
         or explore the sample data shown now.
       </p>
+      <label class="load-btn" for="file-input">
+        <span>Load report</span>
+        <input type="file" id="file-input" accept="application/json,.json" hidden>
+      </label>
       <p class="dropzone-error" id="dropzone-error" hidden></p>
     </div>
 

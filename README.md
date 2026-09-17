@@ -20,9 +20,9 @@ dashboard stay separate.
 
 ## Usage
 
-1. On `master`, generate a JSON report:
+1. On `master`, generate a report (JSON is the default format):
    ```bash
-   python main.py --format json
+   python main.py
    ```
 2. Open `static/index.html` in a browser (double-click it, no server needed).
 3. Drag the generated `.json` file onto the page, or click "Load report"
@@ -36,7 +36,7 @@ polyfills.
 
 ## Report format
 
-The dashboard reads exactly what `python main.py --format json` writes:
+The dashboard reads exactly what `python main.py` writes (JSON is the default format):
 `profile`, `languages`, `top_repos`, `growth_by_month`, `most_active_day`,
 `commit_activity`. See `sample-data.json` for the shape.
 

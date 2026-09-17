@@ -90,20 +90,6 @@ a { color: var(--accent); }
 
 .brand { display: flex; align-items: center; gap: 10px; }
 
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-weight: 700;
-  font-size: 14px;
-}
-
 .brand-name { font-weight: 600; font-size: 15px; }
 
 .topbar-actions { display: flex; align-items: center; gap: 10px; }
@@ -149,6 +135,11 @@ main#app {
   background: var(--page-plane);
   padding: 2px 5px;
   border-radius: 4px;
+}
+
+.dropzone .load-btn {
+  display: inline-block;
+  margin-top: 14px;
 }
 
 .dropzone-error {

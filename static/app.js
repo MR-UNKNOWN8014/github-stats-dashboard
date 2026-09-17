@@ -213,7 +213,7 @@ function loadFromText(text) {
   try {
     data = JSON.parse(text);
   } catch (e) {
-    showLoadError("That file isn't valid JSON. Generate one with: python main.py --format json");
+    showLoadError("That file isn't valid JSON. Generate one with: python main.py");
     return;
   }
   try {
