@@ -13,7 +13,7 @@ for viewing those reports in a browser, kept on its own branch. See
 - **Fetches your GitHub stats** via authenticated REST API (repos, commits, stars, languages)
 - **Analyzes contribution patterns** (most active day, language breakdown, repo growth over time)
 - **Generates a report** in Markdown or JSON
-- **Timestamps reports** automatically: `reports/github_report_2026-06-20_1432.md`
+- **Timestamps reports** automatically: `reports/github_report_2026-06-20_1432.json`
 
 Perfect for portfolio updates, quarterly reviews, or just understanding your own coding habits.
 
@@ -74,14 +74,15 @@ Fetching commit activity (12 repos)
 Fetching language breakdown (12 repos)
 Analyzing Data
 Generating Report
-Report saved to: reports/github_report_2026-06-20_1432.md
+Report saved to: reports/github_report_2026-06-20_1432.json
 ```
 
 Note: fetching commit activity and language breakdown makes two extra API
 calls per non-fork repo, so it uses more of your rate limit and takes
 longer on accounts with many repos.
 
-Open `reports/github_report_2026-06-20_1432.md` in your editor or Markdown viewer.
+The default format is JSON (that's what the [HTML dashboard](#html-dashboard)
+reads). Use `--format md` for a human-readable Markdown report instead.
 
 ---
 
@@ -94,8 +95,8 @@ python main.py -u octocat
 # Include your own private repos (only works for the token's own account)
 python main.py --private
 
-# Get the raw stats as JSON instead of Markdown
-python main.py --format json
+# Get a human-readable Markdown report instead of JSON
+python main.py --format md
 
 # Write to a specific path
 python main.py -u octocat -o reports/octocat.md
@@ -129,10 +130,10 @@ Example section (Markdown format):
 | HTML       | 2,100  | 10.0% | █            |
 ```
 
-JSON format (`--format json`) writes the same underlying stats as a plain
+JSON is the default format and writes the same underlying stats as a plain
 object instead: `profile`, `languages`, `top_repos`, `growth_by_month`,
 `most_active_day`, `commit_activity`. That's the format the HTML dashboard
-reads.
+reads. Pass `--format md` for the Markdown version shown above.
 
 ---
 
@@ -145,11 +146,11 @@ framework, just `index.html` you generate a report for and open in a
 browser:
 
 ```bash
-python main.py --format json
+python main.py
 ```
 
-Then switch to the `html-dashboard` branch, open `index.html`, and drop
-the generated file onto the page. See that branch's README for details.
+Then switch to the `html-dashboard` branch, open `static/index.html`, and
+drop the generated file onto the page. See that branch's README for details.
 
 ---
 
@@ -171,7 +172,7 @@ github-stats-dashboard/
 ├── main.py                   # Orchestrate the full pipeline
 │
 └── reports/                  # Generated reports live here
-    └── github_report_2026-06-20_1432.md
+    └── github_report_2026-06-20_1432.json
 ```
 
 ---

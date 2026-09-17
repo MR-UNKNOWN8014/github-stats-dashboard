@@ -33,7 +33,7 @@ def generate_filename(ext):
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M")
     return f"reports/github_report_{timestamp}.{ext}"
 
-def run(username=None, include_private=None, output=None, fmt="md"):
+def run(username=None, include_private=None, output=None, fmt="json"):
     print("Fetching GitHub Profile")
     profile = get_user_profile(username=username, include_private=include_private)
     owner = profile["login"]
